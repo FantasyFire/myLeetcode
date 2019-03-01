@@ -30,6 +30,29 @@
  * @return {number}
  */
 var maximalRectangle = function(matrix) {
-    
+    var i, j, max, count;
+    var row = matrix.length, col = matrix.length != 0 && matrix[0] != undefined ? matrix[0].length : 0;
+    for (i = 0; i < row; i++) {
+        count = 0;
+        for (j = 0; j < col; j++) {
+            if (matrix[i][j] == 1) matrix[i][j] = matrix[i][j] * 1 + count++;
+            else count = 0;
+        }
+    }
+    console.log(matrix);
+    max = 0;
+    for (j = col-1; j >= 0; j--) {
+        for (i = row-1; i >= 0; i--) {
+            var oldj = j, w = matrix[i][j], h = 1;;
+            if (w != 0) {
+                while (i > 0 && matrix[i-1][j] != 0) { w = min(w, matrix[i-1][j]); i--; h++; if (w * h > max) max = w * h; }
+                if (w * h > max) max = w * h;
+            }
+            j = oldj;
+        }
+    }
+    return max;
 };
+
+var min = function (a, b) { return a < b ? a : b; };
 
