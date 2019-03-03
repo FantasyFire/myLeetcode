@@ -39,20 +39,26 @@ var maximalRectangle = function(matrix) {
             else count = 0;
         }
     }
-    console.log(matrix);
+    console.log(matrix.map(i=>i.map(j=>j*1)));
     max = 0;
     for (j = col-1; j >= 0; j--) {
         for (i = row-1; i >= 0; i--) {
-            var oldj = j, w = matrix[i][j], h = 1;;
+            var oldi = i, w = matrix[i][j], h = 1;
+            if (w * h > max) max = w * h;
             if (w != 0) {
-                while (i > 0 && matrix[i-1][j] != 0) { w = min(w, matrix[i-1][j]); i--; h++; if (w * h > max) max = w * h; }
+                while (i > 0 && matrix[i-1][j] != 0) {
+                    if (w >= matrix[i-1][j]) {
+                        w = matrix[i-1][j];
+                    }
+                    i--;
+                    h++;
+                    if (w * h > max) max = w * h;
+                }
                 if (w * h > max) max = w * h;
             }
-            j = oldj;
+            i = oldi;
         }
     }
     return max;
 };
-
-var min = function (a, b) { return a < b ? a : b; };
 
