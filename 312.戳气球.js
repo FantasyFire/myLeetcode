@@ -44,15 +44,23 @@ var maxCoins = function(nums) {
         var len = nums.length;
         maxProduct = maxIdx = 0;
         for (i = 0; i < len; i++) {
-            var product = (i==0?1:nums[i-1])*(i==len-1?1:nums[i+1]);
+            var product = (i==0?1:nums[i-1])*nums[i]*(i==len-1?1:nums[i+1]);
+            if ((i==0?1:nums[i-1])>nums[i] && nums[i]<(i==len-1?1:nums[i+1])) {
+                maxProduct = product;
+                maxIdx = i;
+                break;
+            }
             if (product > maxProduct) {
                 maxProduct = product;
                 maxIdx = i;
+            } else if (product == maxProduct && nums[i] < nums[maxIdx]) {
+                maxIdx = i;
             }
         }
-        ret += maxProduct*nums[maxIdx];
+        console.log(nums);
+        console.log(nums[maxIdx]);
+        ret += maxProduct;
         nums.splice(maxIdx, 1);
     }
     return ret;
 };
-
