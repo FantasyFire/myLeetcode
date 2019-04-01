@@ -30,8 +30,24 @@
  * @return {string}
  */
 var removeDuplicateLetters = function(s) {
-    if ([0,1].includes(s.length)) return s;
-    if (s[1] < s[0] && s.indexOf(s[0], 2)!=-1 || s[1]==s[0]) return removeDuplicateLetters(s.substr(1));
-    else return s[0] + removeDuplicateLetters(s.substr(1).replace(new RegExp(s[0], "g"), ''));
+    var i, n = {}, c = 0;
+    for (i = 0; i < s.length; i++) {
+        n[s[i]] = n[s[i]] ? n[s[i]]+1 : (c++,1);
+    }
+    while (s.length > c) {
+        i = 0;
+        var a = [];
+        while (n[s[i]] > 1) { a.push(s[i]); i++; }
+        s[i]!=undefined && (a.push(s[i]));
+        var min = Math.min(...a), minIdx = s.indexOf(min);
+        for (i = 0; i < minIdx; i++) {
+            var cur = s[0];
+            if (n[cur] > 1) s.splice()
+        }
+
+    }
+    // if ([0,1].includes(s.length)) return s;
+    // if (s[1] < s[0] && s.indexOf(s[0], 2)!=-1 || s[1]==s[0]) return removeDuplicateLetters(s.substr(1));
+    // else return s[0] + removeDuplicateLetters(s.substr(1).replace(new RegExp(s[0], "g"), ''));
 };
 
