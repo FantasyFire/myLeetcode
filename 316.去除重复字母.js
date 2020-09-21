@@ -30,32 +30,27 @@
  * @return {string}
  */
 var removeDuplicateLetters = function(s) {
-    var end = false
-    while (s.length > 1) {
-        var len = s.length;
-        for (var i = 0; i < len - 1; i++) {
-            var w1 = s[i].charCodeAt()
-            var w2 = s[i + 1].charCodeAt()
-            if (w1 == w2) {
-                s = s.substr(0, i) + s.substring(i + 1)
-                console.log(s)
-                break
-            }
-            
-            if (w1 > w2) {
-                var dupIdx = s.indexOf(s[i], i + 1)
-                if (dupIdx > -1) {
-                    s = s.substr(0, i) + s.substring(i + 1)
-                    console.log(s)
-                    break
+    if (s.length > 1) {
+        var results = [s[0]]
+        for (var i = 1; i < s.length; i++) {
+            var curWord = s[i], pres = s.substr(0, i), idx = pres.indexOf(curWord)
+            if (idx > -1) {
+                // console.log(i, results)
+                var len = results.length
+                for (var j = 0; j < len; j++) {
+                    var ss = results[j]
+                    var ii = ss.indexOf(curWord)
+                    results.push(ss.substr(0, ii) + ss.substring(ii + 1) + curWord)
                 }
+                // console.log(i, results)
+            } else {
+                results = results.map(r => r + curWord)
             }
-
-            if (i == len - 2) end = true
         }
-        if (end) break
+        results.sort()
+        // console.log(results)
     }
 
-    return s
+    return s.length > 1 ? results[0] : s
 };
 
