@@ -10,30 +10,65 @@
  * @return {string}
  */
 
+// 用官方的manacher算法来解
+var expend = function (s, left, right) {
+    while (left>0 && right<s.length-1 && s[left-1]==s[right+1]) {left--;right++}
+    return (right-left)*0.5
+}
+
+var longestPalindrome = function(s) {
+    var s = `#${s.split('').join('#')}#`
+    var len = s.length, max_l = 0, max_r = -1
+    var expenda = [] // 记录每个中心点的臂长
+    var right = -1 // 最长右臂末端idx
+    var j = 0 // 当前最长臂展中心点
+    for (var i = 1; i < len-1; i++) {
+        var cur_expend
+        if (right > i) {
+            var i_revers = 2 * j - i // 计算i关于j的对称点i'
+            var min_expend = Math.min(expenda[i_revers], expenda[j]) // 取对称点i'与j的臂展的小值
+            cur_expend = expend(s, i-min_expend, i+min_expend)
+        } else {
+            cur_expend = expend(s, i, i)
+        }
+        expenda[i] = cur_expend
+        if (i+cur_expend > right) {
+            right = i+cur_expend
+            j = i
+        }
+        if (cur_expend * 2 + 1 > max_r - max_l) {
+            max_l = i - cur_expend
+            max_r = i + cur_expend
+        }
+    }
+    return s.substring(max_l, max_r).replace(/#/g, '')
+};
+
+
 // 在中心扩展法的基础上，引入统一奇偶情况的技巧
 /**
  * 103/103 cases passed (476 ms)
  * Your runtime beats 48.73 % of javascript submissions
  * Your memory usage beats 42.76 % of javascript submissions (44.9 MB)
  */
-var longestPalindrome = function(s) {
-    var s = `#${s.split('').join('#')}#`
-    var len = s.length, max = 0, r = ''
-    for (var i = 1; i < len-1; i++) {
-        console.log(i, s[i])
-        if (i-1>=0 && i+1<len && s[i-1] == s[i+1]) {
-            var pad = 1
-            while (s[i - pad] == s[i + pad] && i-pad>=0 && i+pad<len) pad++
-            var newlen = (pad-1)*2 + 1
-            if (newlen > max) {
-                max = newlen
-                r = s.substr(i - pad + 1, newlen)
-            }
-        }
-    }
-    r = s.length==0? '' : max ==0 ? s[0]: r
-    return r.replace(/#/g, '')
-};
+// var longestPalindrome = function(s) {
+//     var s = `#${s.split('').join('#')}#`
+//     var len = s.length, max = 0, r = ''
+//     for (var i = 1; i < len-1; i++) {
+//         console.log(i, s[i])
+//         if (i-1>=0 && i+1<len && s[i-1] == s[i+1]) {
+//             var pad = 1
+//             while (s[i - pad] == s[i + pad] && i-pad>=0 && i+pad<len) pad++
+//             var newlen = (pad-1)*2 + 1
+//             if (newlen > max) {
+//                 max = newlen
+//                 r = s.substr(i - pad + 1, newlen)
+//             }
+//         }
+//     }
+//     r = s.length==0? '' : max ==0 ? s[0]: r
+//     return r.replace(/#/g, '')
+// };
 
 /**
  * 103/103 cases passed (728 ms)
