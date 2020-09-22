@@ -39,7 +39,7 @@ var longestPalindrome = function(s) {
 };
 
 
-// 自己想的暴力解法
+// 自己想的暴力解法（对应官方答案的中心扩展算法）
 /**
  * 103/103 cases passed (144 ms)
  * Your runtime beats 66.67 % of javascript submissions
