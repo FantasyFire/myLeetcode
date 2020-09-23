@@ -23,7 +23,9 @@ var numMovesStones = function(a, b, c) {
     if (b > c) [b, c] = [c, b]
     var delta1 = b-a
     var delta2 = c-b
-    return [(delta1>1?1:0)+(delta2>1?1:0)-((delta1==2||delta2==2)&&delta1!=1&&delta2!=1?1:0), b-a-1+c-b-1]
+    var delta1_gte_2 = delta1 >=2
+    var delta2_gte_2 = delta2 >=2
+    return [(delta1_gte_2?1:0)+(delta2_gte_2?1:0)-((delta1==2||delta2==2)&&delta1_gte_2&&delta2_gte_2?1:0), b-a-1+c-b-1]
 };
 // @lc code=end
 
