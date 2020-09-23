@@ -11,6 +11,11 @@
  */
 
 // 用官方的manacher算法来解
+/**
+ * 103/103 cases passed (96 ms)
+ * Your runtime beats 95.31 % of javascript submissions
+ * Your memory usage beats 62.22 % of javascript submissions (39.7 MB)
+ */
 var expend = function (s, left, right) {
     while (left>0 && right<s.length-1 && s[left-1]==s[right+1]) {left--;right++}
     return (right-left)*0.5
@@ -26,7 +31,7 @@ var longestPalindrome = function(s) {
         var cur_expend
         if (right > i) {
             var i_revers = 2 * j - i // 计算i关于j的对称点i'
-            var min_expend = Math.min(expenda[i_revers], expenda[j]) // 取对称点i'与j的臂展的小值
+            var min_expend = Math.min(expenda[i_revers], j + expenda[j] - i) // 取对称点i'与j的臂展的小值
             cur_expend = expend(s, i-min_expend, i+min_expend)
         } else {
             cur_expend = expend(s, i, i)
@@ -36,7 +41,7 @@ var longestPalindrome = function(s) {
             right = i+cur_expend
             j = i
         }
-        if (cur_expend * 2 + 1 > max_r - max_l) {
+        if (cur_expend * 2 > max_r - max_l) {
             max_l = i - cur_expend
             max_r = i + cur_expend
         }
