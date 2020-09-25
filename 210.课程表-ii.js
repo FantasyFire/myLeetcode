@@ -10,6 +10,46 @@
  * @param {number[][]} prerequisites
  * @return {number[]}
  */
+
+/**
+ * 翻译python的深优解法
+ */
+var vaild
+var findOrder = function(numCourses, prerequisites) {
+    var edges = {}
+    var visited = new Array(numCourses).fill(0)
+    var result = []
+    valid = true
+
+    for (var prq of prerequisites) {
+        edges[prq[1]] = edges[prq[1]] || []
+        edges[prq[1]].push(prq[0])
+    }
+
+    for (var i = 0; i < numCourses; i++) {
+        if (valid && !visited[i])
+            dfs(i, edges, visited, result)
+    }
+
+    if (!valid) return []
+    return result.reverse()
+}
+
+var dfs = function (u, edges, visited, result) {
+    visited[u] = 1
+    for (var v of edges[u] || []) {
+        if (visited[v] == 0) {
+            dfs(v, edges, visited, result)
+            if (!valid) return
+        } else if (visited[v] == 1) {
+            valid = false
+            return
+        }
+    }
+    visited[u] = 2
+    result.push(u)
+}
+
 /**
  * 理解不了题目
  */
