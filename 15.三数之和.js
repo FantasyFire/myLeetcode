@@ -13,6 +13,9 @@
 /**
  * 翻译官方python解法，厉害厉害
  * 关键点：排序，使得第2、3个值有并列关系，就可以使用双指针的方法，使2、3重循环由O(n^2)降为O(n)
+ * 318/318 cases passed (192 ms)
+ * Your runtime beats 30.25 % of javascript submissions
+ * Your memory usage beats 38.12 % of javascript submissions (47.6 MB)
  */
 var threeSum = function(nums) {
     nums.sort((n1, n2) => n1 - n2)
