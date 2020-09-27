@@ -11,6 +11,17 @@
  */
 
 /**
+ * 我TM裂开，下次做题要先看tag，脑筋急转弯的就算了
+ * 这题关键在于怎么计算第n个灯泡到底亮不亮，我想到求约数个数是奇还是偶是没问题的。
+ * 问题在于怎么快速的求得奇偶。因为对于n，如果存在约数k(k <= sqrt(n))，那么必然
+ * 存在一个k'(k' >= sqrt(n))使得 k * k' == n，所以k和k'都是成对出现，只有一个情况
+ * 除外，就是k = k' = sqrt(n) 那么此时n的约数个数为奇数个，否则就是偶数个。
+ */
+var bulbSwitch = function(n) {
+    return Math.floor(Math.sqrt(n))
+};
+
+/**
  * 显然bulbSwitch(n+1)和bulbSwitch(n)是有关系的
  * bulbSwitch(n+1) = bulbSwitch(n) + (n 在 [1, n] 中有奇数个约数 ? 1 : 0)
  * 这个办法不行，超时
