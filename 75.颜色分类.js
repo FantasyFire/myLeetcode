@@ -9,29 +9,62 @@
  * @param {number[]} nums
  * @return {void} Do not return anything, modify nums in-place instead.
  */
+
+/**
+ * 再看了一个用快排中partition部分的思路来解题的思路，这个好理解一点
+ * [0, zero)        0
+ * [zero, i)        1
+ * [two, len - 1]   2
+ * 
+ * 87/87 cases passed (100 ms)
+ * Your runtime beats 32.96 % of javascript submissions
+ * Your memory usage beats 5.5 % of javascript submissions (38.5 MB)
+ */
+var sortColors = function(nums) {
+    var len = nums.length
+    if (len < 2) return
+    var zero = 0, two = len, i = 0
+    while(i < two) {
+        if (nums[i] == 0) {
+            swap(nums, i, zero)
+            i++
+            zero++
+        } else if (nums[i] == 1) {
+            i++
+        } else {
+            two--
+            swap(nums, i, two)
+        }
+    }
+}
+
+var swap = function(nums, idx1, idx2) {
+    [nums[idx1], nums[idx2]] = [nums[idx2], nums[idx1]]
+}
+
 /**
  * 翻译了官方python解答
  * 87/87 cases passed (100 ms)
  * Your runtime beats 14.31 % of javascript submissions
  * Your memory usage beats 5.05 % of javascript submissions (39.4 MB)
  */
-var sortColors = function(nums) {
-    var n = nums.length
-    var p0 = p1 = 0
-    for (var i = 0; i < n; i++) {
-        if (nums[i] == 1) {
-            [nums[i], nums[p1]] = [nums[p1], nums[i]];
-            p1 += 1
-        } else if (nums[i] == 0) {
-            [nums[i], nums[p0]] = [nums[p0], nums[i]];
-            if (p0 < p1) {
-                [nums[i], nums[p1]] = [nums[p1], nums[i]];
-            }
-            p0 += 1
-            p1 += 1
-        }
-    }
-}
+// var sortColors = function(nums) {
+//     var n = nums.length
+//     var p0 = p1 = 0
+//     for (var i = 0; i < n; i++) {
+//         if (nums[i] == 1) {
+//             [nums[i], nums[p1]] = [nums[p1], nums[i]];
+//             p1 += 1
+//         } else if (nums[i] == 0) {
+//             [nums[i], nums[p0]] = [nums[p0], nums[i]];
+//             if (p0 < p1) {
+//                 [nums[i], nums[p1]] = [nums[p1], nums[i]];
+//             }
+//             p0 += 1
+//             p1 += 1
+//         }
+//     }
+// }
 
 /**
  * 用双指针逼近方法来解，i=0,j=nums.length-1，当i==j时结束
